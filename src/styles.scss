@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --main-color: #375687;
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url("../public/Nunito-VariableFont_wght.ttf");
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+    font-family: "Nunito";
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
