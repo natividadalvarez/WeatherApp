@@ -64,12 +64,32 @@ export class Searchbar {
     this.setLocation.emit(coords);
   }
 
+  requestGeolocation(){
+    navigator.geolocation.getCurrentPosition(
+      data => {
+        let coords : Coords = {
+          lat: data.coords.latitude.toFixed(2),
+          lon: data.coords.longitude.toFixed(2)
+        }
+        this.sendWeatherDataRequest(coords)
+      },
+      err => {
+        if(err.code == err.PERMISSION_DENIED) {
+          alert('You must allow access to your location to use geolocation services.')
+          console.log("User denied location access.")
+        } else {
+          alert('Unable to access your location at this time. Please try again later.')
+          console.log(err);
+        }
+      }
+  ) 
+  }
+
   requestLocationSuggestions() {
     this.suggestionsStatus.set(REQ_STATUS.REQ_PENDING)
     this.geocoding.getLocationSuggestions(this.location()).subscribe({
       next: (response : LocationData[]) => {
         this.suggestionsStatus.set(REQ_STATUS.REQ_SUCCESS)
-        console.log(response);
         this.suggestions.set(response);
       },
       error: (err: any) => {
