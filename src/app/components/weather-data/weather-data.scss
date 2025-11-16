@@ -1,4 +1,5 @@
 .weather-data {
+    overflow: hidden; 
     h1 {
        text-align: center; 
     }
@@ -9,7 +10,25 @@
         grid-template-columns: 33% 33% 33%;
         grid-template-rows: 100%;
         overflow: hidden;
+
+        & > *{
+           border-radius: 8px; 
+        }
     }
+    
+}
+
+.enter-animation {
+  animation: slide-fade 500ms ease-out;
+}
+
+@keyframes slide-fade {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 .stats {
@@ -17,20 +36,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(4px);
+    border: 2px solid rgba(0, 0,0, .6);
 }
 
 .current-weather {
     text-align: center;
+    backdrop-filter: blur(4px);
+    border: 2px solid rgba(0, 0,0, .6);
+    margin: 0 10px;
 }
 
 .hourly-forecast {
     text-align: center; 
+    backdrop-filter: blur(4px);
+    border: 2px solid rgba(0, 0,0, .6);
 
     .hourly-data {
         max-height: 300px;
         overflow-y: scroll;
         width: 100%;
-        scrollbar-color: auto transparent;
+        scrollbar-color: grey rgba(255,255,255,.3);
         scrollbar-width: thin;
     }
 
@@ -38,7 +64,7 @@
         padding: 10px;
         display: flex;
         justify-content: space-between;
-        border: 1px solid gainsboro;
+        border: 2px solid rgba(0, 0,0, .6);
         border-radius: 8px;
         margin: 8px;
     }

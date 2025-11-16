@@ -1,6 +1,6 @@
 <section class="searchbar">
     <div 
-    (click)="handleLocationFocus($event)"
+    (mouseup)="handleLocationFocus($event)"
     class="search-input">
         <input 
             (keyup)="handleLocationSearch($event)"
@@ -11,7 +11,7 @@
                 @if (suggestionsStatus() == REQ_STATUS.REQ_SUCCESS) {
                     @if (suggestions().length > 0 ) {
                         @for (loc of suggestions(); track $index) {
-                            <p (click)="handleLocationSelect($event)" [attr.data-lat]=loc.lat [attr.data-lon]=loc.lon class="suggestion">
+                            <p (click)="handleLocationSelect($event)" [attr.data-lat]=loc.lat [attr.data-lon]=loc.lon class="suggestion city">
                                 {{loc.name}}, {{loc.state? loc.state + ',' : ""}} {{loc.country}}
                             </p>
                         }

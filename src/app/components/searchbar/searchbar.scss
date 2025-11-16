@@ -13,12 +13,29 @@
    input {
       width: 100%;
       text-align: center; 
+      background-color: transparent;
+      backdrop-filter: blur(100px);
+      font-size: 18px;
+      border: 2px solid rgba(255, 255,255, .3);
+      border: 2px solid rgba(0, 0,0, .6);
+      border-radius: 4px;
+      padding: 4px 8px;
+
+      &::placeholder {
+         color: black;
+      }
+
+      &:focus {
+         outline: none;
+      }
    }  
 
    .suggestions {
+      background-color: whitesmoke;
       width: 100%;
       position: absolute;
-      border: 1px solid gainsboro;
+      z-index: 10;
+      border: 2px solid rgba(255, 255,255, .3);
       border-bottom-right-radius: 8px;
       border-bottom-left-radius: 8px;
       
@@ -27,17 +44,33 @@
          border-bottom: 1px solid gainsboro;
          padding: 8px 16px;
          margin: 0;
+
+         &.city:hover {
+            background-color: darken(whitesmoke, 10%);
+         }
+
+         &:last-of-type {
+            border-bottom: none !important;
+         }
          
          &.error {
             color: crimson;
          }
+      }
+   }
+}
 
-         &.grey {
-            color: grey;
-         }
-      }
-      .sel {
-         background-color: var(--main-color);
-      }
+
+button {
+   padding: 4px 8px;
+   border-radius: 16px;
+   border: none;
+   margin-left: 16px;
+   background-color: #482430;
+   color: whitesmoke;
+   transition: background-color 1s ease-out;
+
+   &:hover {
+      background-color: darken(#482430, 20%);
    }
 }
