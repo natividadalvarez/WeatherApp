@@ -43,3 +43,11 @@
         margin: 8px;
     }
 }
+
+.status-text {
+    text-align: center;
+    
+    &.error {
+        color: crimson;
+    }
+}
