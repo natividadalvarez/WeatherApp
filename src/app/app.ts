@@ -19,11 +19,11 @@ export class App {
 
   weatherData = signal<WeatherDataAggregate>({currentWeather: null, hourlyWeather: []});
   reqStatus = signal<REQ_STATUS>(REQ_STATUS.REQ_NOT_STARTED);
-
+       
   setLocation(data: Coords) {
     this.selectedLocation.set(data);
     this.reqStatus.set(REQ_STATUS.REQ_PENDING);
-    this.weatherService.getWeatherData().subscribe({
+    this.weatherService.getWeatherData(this.selectedLocation()).subscribe({
       next: (result: WeatherDataAggregate) => {
         this.weatherData.set(result);
         this.reqStatus.set(REQ_STATUS.REQ_SUCCESS);

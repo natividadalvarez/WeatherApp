@@ -1,4 +1,4 @@
-exports.handler = async function(){
+exports.handler = async function(req, context){
     /*
     endpoint: https://api.openweathermap.org/geo/1.0/direct?q={city_name},&appid={API_key}&limit={count:1} 
     returns lat, lon and other data for city that most closely matches query
@@ -7,122 +7,67 @@ exports.handler = async function(){
     state code is only for US locations, uses ISO 3166 country codes
     if no matches with query, response is empty array
     */
+    let apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q="
+    
+    let query = req.queryStringParameters.query.split(",");
+    let city = null;
+    let state = null;
+    let country = null;
 
-    exampleRes = [
-        {
-            "name": "San Jose",
-            "local_names": {
-              "ru": "Сан-Хосе",
-              "en": "San Jose",
-              "zh": "聖荷西",
-              "vi": "San Jose",
-              "uk": "Сан-Хосе",
-              "ar": "سان خوسيه",
-              "oc": "San José",
-              "es": "San José",
-              "pt": "San José",
-              "am": "ሳን ሆዜ",
-              "gl": "San Xosé",
-              "eo": "San-Joseo"
-            },
-            "lat": 37.3361663,
-            "lon": -121.890591,
-            "country": "US",
-            "state": "California"
-        },
-        {
-            "name": "San José",
-            "local_names": {
-                "os": "Сан-Хосе",
-                "en": "San José",
-                "uk": "Сан-Хосе",
-                "az": "San-Xose",
-                "ja": "サンホセ",
-                "am": "ሳን ሆዜ",
-                "fr": "San José",
-                "lt": "San Chosė",
-                "nn": "San José i Costa Rica",
-                "gl": "San Xosé, Costa Rica",
-                "ur": "سان ہوزے",
-                "be": "Сан-Хасэ",
-                "nl": "San José",
-                "is": "San José",
-                "bs": "San Jose, Kostarika",
-                "pl": "San José",
-                "ka": "სან-ხოსე",
-                "zh": "聖荷西",
-                "sw": "San Jose",
-                "fa": "سان خوزه",
-                "eo": "San-Joseo",
-                "mk": "Сан Хозе",
-                "ht": "San Jozé",
-                "de": "San José",
-                "el": "Σαν Χοσέ",
-                "mr": "सान होजे, कोस्टा रिका",
-                "hu": "San José",
-                "ru": "Сан-Хосе",
-                "hy": "Սան Խոսե",
-                "bo": "སན་ཇོ་སེ།",
-                "bn": "স্যান হোসে, কোস্টা রিকা",
-                "sv": "San José, Costa Rica",
-                "ta": "சான் ஹொசே, கோஸ்ட்டா ரிக்கா",
-                "es": "San José",
-                "ug": "سان خوسې",
-                "hi": "सान होज़े",
-                "io": "San Jose",
-                "lv": "Sanhosē",
-                "th": "ซันโฮเซ",
-                "ko": "산호세",
-                "bg": "Сан Хосе",
-                "sr": "Сан Хосе",
-                "ar": "سان خوسيه، كوستاريكا",
-                "he": "סן חוסה"
-           },
-           "lat": 9.9325427,
-           "lon": -84.0795782,
-           "country": "CR"
-        },
-        {
-            "name": "San Jose",
-            "lat": 12.0612933,
-            "lon": 121.9565754,
-            "country": "PH",
-            "state": "Romblon"
-        },
-        {
-            "name": "Sant Josep de sa Talaia",
-            "local_names": {
-                "ca": "Sant Josep de sa Talaia",
-                "es": "San José"
-            },
-            "lat": 38.9043608,
-            "lon": 1.3178098,
-            "country": "ES",
-            "state": "Balearic Islands"
-         },
-        {
-            "name": "San Jose",
-            "local_names": {
-                "en": "San Jose"
-            },
-            "lat": 40.305598,
-            "lon": -89.6028829,
-            "country": "US",
-            "state": "Illinois"
+    for(let i = 0; i < query.length; i++) {
+        if(i == 0) {
+            city=query[i].trim();
+        } else if(i == 1) {
+            if(query.length==2) {
+                country=query[i].trim();
+            } else {
+                state=query[i].trim();
+            }
+        } else if(i == 2) {
+            country=query[i].trim();
         }
-    ]
+    }
 
-    let formattedLocationData = exampleRes.map(location=> {
+    let apiQueryParams = "";
+    if(city && city.length > 0) {
+        apiQueryParams += `${city},`
+    }
+    if(state && state.length > 0) {
+        apiQueryParams += `${state},`
+    }
+    if(country && country.length > 0) {
+        apiQueryParams += `${country}`
+    }
+
+    apiUrl += `${apiQueryParams}&limit=5&appid=${process.env.OPENWEATHER_API_KEY}`
+
+    try {
+        let res = await fetch(apiUrl);
+        if (!res.ok) {
+            return {
+                statusCode: res.status,
+                body: JSON.stringify({message: "Could not connect to OpenWeather API."})
+            }
+        } 
+        let data = await res.json();
+        let formattedLocationData = data.map(location=> {
+            return {
+               city: location.name,
+               lat: location.lat,
+               lon: location.lon,
+               country: location.country,
+               state: location.state? location.state: null 
+            }
+        });
         return {
-           city: location.name,
-           lat: location.lat,
-           lon: location.lon,
-           country: location.country,
-           state: location.state? location.state: null 
+            statusCode: 200,
+            body: JSON.stringify(formattedLocationData)
         }
-    });
-    return {
-        statusCode: 200,
-        body: JSON.stringify(formattedLocationData)
+    } catch(err) {
+        console.log(err);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({message: "Could not connect to OpenWeather API."})
+        }
     }
 }

@@ -7,6 +7,6 @@ export class GeocodingService {
   http = inject(HttpClient);
 
   getLocationSuggestions(location: string) {
-    return this.http.get<LocationData[]>('/.netlify/functions/geocode');
+    return this.http.get<LocationData[]>(`/.netlify/functions/geocode?query=${location}`);
   }
 }
