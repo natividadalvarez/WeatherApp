@@ -112,8 +112,17 @@ exports.handler = async function(){
         }
     ]
 
+    let formattedLocationData = exampleRes.map(location=> {
+        return {
+           city: location.name,
+           lat: location.lat,
+           lon: location.lon,
+           country: location.country,
+           state: location.state? location.state: null 
+        }
+    });
     return {
         statusCode: 200,
-        body: JSON.stringify(exampleRes)
+        body: JSON.stringify(formattedLocationData)
     }
 }

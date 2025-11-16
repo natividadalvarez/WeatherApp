@@ -6,5 +6,5 @@
     <app-searchbar (setLocation)="setLocation($event)"></app-searchbar>
     <app-weather-data 
     [dataReady]="reqStatus()"
-    [hourlyWeather]="weatherData()?.hourlyWeather" [currentWeather]="weatherData()?.currentWeather"></app-weather-data>
+    [hourlyWeather]="weatherData().hourlyWeather" [currentWeather]="weatherData().currentWeather"></app-weather-data>
 </main>

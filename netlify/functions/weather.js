@@ -1,5 +1,5 @@
 exports.handler = async function() {
-    currentWeather = {
+    let currentWeather = {
     "coord": {
       "lon": 81.64,
       "lat": 35.07
@@ -44,7 +44,7 @@ exports.handler = async function() {
     "cod": 200
   }
 
-  hourlyWeather = {
+  let hourlyWeather = {
   "cod": "200",
   "message": 0,
   "cnt": 40,
@@ -1505,12 +1505,33 @@ exports.handler = async function() {
   }
 }
 
-    
+    // NOTE: There can technically be many weather events in the weather array,
+    // but for the purposes of this challenge, we'll just display the first 
+    let currentWeatherFormatted = {
+      dt: currentWeather.dt,
+      weatherEvent: currentWeather.weather.length > 0? currentWeather.weather[0].main: "N/A",
+      icon: currentWeather.weather.length > 0? currentWeather.weather[0].icon: "",
+      temp: currentWeather.main.temp, 
+      feelslike: currentWeather.main.feels_like,
+      humidity: currentWeather.main.humidity,
+      windSpeed: currentWeather.wind? currentWeather.wind.speed: 0,
+      visibility: currentWeather.visibility,
+      city: currentWeather.name,
+      country: currentWeather.sys.country
+    }
+
+    let hourlyWeatherFormatted = hourlyWeather.list.map(datum=>{
+     return {
+      dt: datum.dt,
+      weatherEvent: datum.weather.length > 0? datum.weather[0].main: "N/A",
+      temp: datum.main.temp
+     } 
+    });
     return {
         statusCode: 200,
         body: JSON.stringify({
-            currentWeather: currentWeather,
-            hourlyWeather: hourlyWeather
+            currentWeather: currentWeatherFormatted,
+            hourlyWeather: hourlyWeatherFormatted
         })
     }
 } 

@@ -1,7 +1,7 @@
 import { Component, HostListener, inject, output, signal } from '@angular/core';
 import { GeocodingService } from '../../services/geocoding-service';
 import { REQ_STATUS } from '../../types/request-status';
-import { Coords } from '../../types/coords';
+import { Coords, LocationData } from '../../types/location-data';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class Searchbar {
   
   readonly REQ_STATUS = REQ_STATUS
   location = signal("");
-  suggestions = signal<Array<any>>([]);
+  suggestions = signal<LocationData[]>([]);
   showSuggestions = signal<boolean>(false);
   suggestionsStatus = signal<REQ_STATUS>(REQ_STATUS.REQ_NOT_STARTED)
   searchTimeout = 0
@@ -67,7 +67,7 @@ export class Searchbar {
   requestLocationSuggestions() {
     this.suggestionsStatus.set(REQ_STATUS.REQ_PENDING)
     this.geocoding.getLocationSuggestions(this.location()).subscribe({
-      next: (response : any) => {
+      next: (response : LocationData[]) => {
         this.suggestionsStatus.set(REQ_STATUS.REQ_SUCCESS)
         console.log(response);
         this.suggestions.set(response);
