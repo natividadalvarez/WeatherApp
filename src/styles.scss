@@ -12,6 +12,7 @@
 }
 
 body {
+    min-height: 100vh;
     font-family: "Nunito";
     margin: 0;
     display: flex;
@@ -19,6 +20,8 @@ body {
     align-items: center;
     background-image: url('/bg.jpg');
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     font-size: 18px;
     color: #181818;
 }
@@ -26,6 +29,9 @@ body {
 input, button {
     font-family: "Nunito";
     font-size: 18px;
+    @media (max-width: 860px) {
+        font-size: 16px;
+    }
 }
 
 header {
@@ -40,4 +46,8 @@ app-root {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
+    @media (max-width: 860px) {
+        height: initial; 
+    }   
 }
