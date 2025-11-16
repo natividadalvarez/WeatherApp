@@ -1,6 +1,7 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, output, signal } from '@angular/core';
 import { GeocodingService } from '../../services/geocoding-service';
 import { REQ_STATUS } from '../../types/request-status';
+import { Coords } from '../../types/coords';
 
 
 @Component({
@@ -11,8 +12,10 @@ import { REQ_STATUS } from '../../types/request-status';
   providers: [GeocodingService]
 })
 export class Searchbar {
-  readonly REQ_STATUS = REQ_STATUS
   geocoding = inject(GeocodingService)
+  setLocation = output<Coords>()
+  
+  readonly REQ_STATUS = REQ_STATUS
   location = signal("");
   suggestions = signal<Array<any>>([]);
   showSuggestions = signal<boolean>(false);
@@ -24,6 +27,14 @@ export class Searchbar {
   }
 
   handleLocationSearch(e: KeyboardEvent) {
+    if(e.key == "Enter" && this.location().length > 0) {
+      let coords : Coords = {
+        lat: this.suggestions()[0].lat, 
+        lon: this.suggestions()[0].lon 
+      }
+      this.sendWeatherDataRequest(coords);
+      return; 
+    }
     let inputEl = <HTMLInputElement> e.currentTarget;
     this.location.set(inputEl.value);
     clearTimeout(this.searchTimeout);
@@ -38,7 +49,19 @@ export class Searchbar {
 
   handleLocationSelect(e: MouseEvent) {
     let locationEl = <HTMLParagraphElement> e.currentTarget;
-    console.log(locationEl.dataset['lat'], locationEl.dataset['lon']); 
+    let coords: Coords = {
+      lat: locationEl.dataset['lat'] || "",
+      lon: locationEl.dataset['lon'] || ""
+    }
+    this.sendWeatherDataRequest(coords)
+  }
+
+  sendWeatherDataRequest(coords: Coords) {
+    this.suggestions.set([]);
+    this.location.set("");
+    this.suggestionsStatus.set(REQ_STATUS.REQ_NOT_STARTED);
+    this.showSuggestions.set(false);
+    this.setLocation.emit(coords);
   }
 
   requestLocationSuggestions() {
