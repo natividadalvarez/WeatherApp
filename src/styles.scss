@@ -17,12 +17,27 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url('/bg.jpg');
+    background-size: cover;
+    font-size: 18px;
+    color: #181818;
+}
+
+input, button {
+    font-family: "Nunito";
+    font-size: 18px;
+}
+
+header {
+    font-weight: 900;
+    text-align: center;
 }
 
 app-root {
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
