@@ -1,18 +1,18 @@
 <section class="weather-data">
     @if (dataReady() == REQ_STATUS.REQ_SUCCESS) {
-        <h1>{{currentWeather().city}}, {{currentWeather().country}}</h1>
+        <h1>{{currentWeather()?.city}}, {{currentWeather()?.country}}</h1>
         <div class="data" animate.enter="enter-animation">
             <div class="stats">
-                <h3>Feels like: {{currentWeather().feelslike.toFixed()}}&deg;F</h3>
-                <h3>Humidity: {{currentWeather().humidity.toFixed()}}%</h3>
-                <h3>Wind Speed: {{currentWeather().windSpeed}}mph</h3>
-                <h3>Visibility: {{currentWeather().visibility.toFixed()}}m</h3>
+                <h3>Feels like: {{currentWeather()?.feelslike?.toFixed()}}&deg;F</h3>
+                <h3>Humidity: {{currentWeather()?.humidity?.toFixed()}}%</h3>
+                <h3>Wind Speed: {{currentWeather()?.windSpeed}}mph</h3>
+                <h3>Visibility: {{currentWeather()?.visibility?.toFixed()}}m</h3>
             </div>
             <div class="current-weather">
-                <h2>{{currentWeather().weatherEvent}}</h2>
+                <h2>{{currentWeather()?.weatherEvent}}</h2>
                 <!-- img url is provided by the API as well -->
-                <img width=200 height=200 src="https://openweathermap.org/img/wn/{{currentWeather().icon}}@4x.png"/>
-                <h2>{{currentWeather().temp.toFixed()}}&deg;F</h2>
+                <img width=200 height=200 src="https://openweathermap.org/img/wn/{{currentWeather()?.icon}}@4x.png"/>
+                <h2>{{currentWeather()?.temp?.toFixed()}}&deg;F</h2>
             </div>
             <div class="hourly-forecast">
                 <h2>Your Hourly Forecast</h2>

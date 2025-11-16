@@ -17,7 +17,7 @@ export class App {
   selectedLocation  = signal<Coords>(null);
   private weatherService = inject(WeatherService);
 
-  weatherData = signal<WeatherDataAggregate>({currentWeather: null, hourlyWeather: null});
+  weatherData = signal<WeatherDataAggregate>({currentWeather: null, hourlyWeather: []});
   reqStatus = signal<REQ_STATUS>(REQ_STATUS.REQ_NOT_STARTED);
 
   setLocation(data: Coords) {

@@ -13,6 +13,6 @@ import { CurrentWeatherData, HourlyWeatherData } from '../../types/weather-data'
 export class WeatherData {
   readonly REQ_STATUS = REQ_STATUS //so the enum is accessible in the template
   currentWeather = input<CurrentWeatherData|null>(null); 
-  hourlyWeather = input<HourlyWeatherData|null>(null);
+  hourlyWeather = input<HourlyWeatherData[]>([]);
   dataReady = input<REQ_STATUS>(REQ_STATUS.REQ_NOT_STARTED);
 }

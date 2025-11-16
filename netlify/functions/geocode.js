@@ -4,7 +4,7 @@ exports.handler = async function(){
     returns lat, lon and other data for city that most closely matches query
     if limit is not specified, it returns 1 city by default
     q = string of city,state code,country code separated by comma
-    state code is only for US locations, ues ISO 3166 country codes
+    state code is only for US locations, uses ISO 3166 country codes
     if no matches with query, response is empty array
     */
 

@@ -20,5 +20,5 @@ export type HourlyWeatherData = {
 
 export type WeatherDataAggregate = {
   currentWeather: CurrentWeatherData|null,
-  hourlyWeather: HourlyWeatherData|null 
+  hourlyWeather: HourlyWeatherData[] 
 }
