@@ -1,0 +1,6 @@
+export enum  REQ_STATUS {
+  REQ_NOT_STARTED,
+  REQ_PENDING,
+  REQ_SUCCESS,
+  REQ_ERR
+}
