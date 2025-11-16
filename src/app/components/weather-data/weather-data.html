@@ -1,7 +1,7 @@
 <section class="weather-data">
     @if (dataReady() == REQ_STATUS.REQ_SUCCESS) {
         <h1>{{currentWeather().name}}, {{currentWeather().sys.country}}</h1>
-        <div class="data">
+        <div class="data" animate.enter="enter-animation">
             <div class="stats">
                 <h3>Feels like: {{currentWeather().main.feels_like.toFixed()}}&deg;F</h3>
                 <h3>Humidity: {{currentWeather().main.humidity.toFixed()}}%</h3>
@@ -9,7 +9,10 @@
                 <h3>Visibility: {{currentWeather().visibility.toFixed()}}m</h3>
             </div>
             <div class="current-weather">
+                <!-- There can technically be many weather events in the weather array, but for the purposes of this challenge,
+                 we'll just display the first -->
                 <h2>{{currentWeather().weather[0].main}}</h2>
+                <!-- img url is provided by the API as well -->
                 <img width=200 height=200 src="https://openweathermap.org/img/wn/{{currentWeather().weather[0].icon}}@4x.png"/>
                 <h2>{{currentWeather().main.temp.toFixed()}}&deg;F</h2>
             </div>
@@ -29,7 +32,7 @@
         </div>
     } @else if(dataReady() == REQ_STATUS.REQ_PENDING) {
        <p class="status-text">Loading...</p> 
-    } @else {
+    } @else if(dataReady() == REQ_STATUS.REQ_ERR) {
        <p class="status-text error">Could not load weather data at this time. Please try again later.</p> 
     }
 </section>

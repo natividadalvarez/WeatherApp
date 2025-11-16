@@ -1,4 +1,10 @@
+<header>
+    <h1>Weather or Not</h1>
+    <p>Bringing you your local forecast, rain, sleet, snow or shine</p>
+</header>
 <main>
-    <app-searchbar></app-searchbar>
-    <app-weather-data></app-weather-data>
+    <app-searchbar (setLocation)="setLocation($event)"></app-searchbar>
+    <app-weather-data 
+    [dataReady]="reqStatus()"
+    [hourlyWeather]="weatherData()?.hourlyWeather" [currentWeather]="weatherData()?.currentWeather"></app-weather-data>
 </main>
