@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { GeocodingService } from '../../services/geocoding-service';
 import { REQ_STATUS } from '../../types/request-status';
 
@@ -22,10 +22,6 @@ export class Searchbar {
   handleLocationFocus(e: FocusEvent) {
     this.showSuggestions.set(true)
   }
-  
-  handleLocationBlur(e: FocusEvent) {
-    this.showSuggestions.set(false)
-  }
 
   handleLocationSearch(e: KeyboardEvent) {
     let inputEl = <HTMLInputElement> e.currentTarget;
@@ -38,6 +34,11 @@ export class Searchbar {
       this.suggestions.set([]);
       this.suggestionsStatus.set(REQ_STATUS.REQ_NOT_STARTED)
     }
+  }
+
+  handleLocationSelect(e: MouseEvent) {
+    let locationEl = <HTMLParagraphElement> e.currentTarget;
+    console.log(locationEl.dataset['lat'], locationEl.dataset['lon']); 
   }
 
   requestLocationSuggestions() {
@@ -54,4 +55,14 @@ export class Searchbar {
       }      
     })
   }
+  //this is just to close the location suggesstions,
+  //when the user clicks anywhere that isn't the input box or a suggestion item
+  @HostListener('document:click', ['$event'])
+  onDocClick(event: MouseEvent) {
+    let queryBox = document.querySelector(".search-input");
+    let clickTarget = <HTMLElement> event.target
+    if(!queryBox?.contains(clickTarget))
+      this.showSuggestions.set(false);
+  }
 }
+
