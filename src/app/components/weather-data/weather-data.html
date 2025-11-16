@@ -1,0 +1,28 @@
+<section class="weather-data">
+    <h1>{{data.name}}, {{data.sys.country}}</h1>
+    <div class="data">
+        <div class="stats">
+            <h3>Feels like: {{data.main.feels_like.toFixed()}}&deg;F</h3>
+            <h3>Humidity: {{data.main.humidity.toFixed()}}%</h3>
+            <h3>Wind Speed: {{data.wind.speed}}mph</h3>
+            <h3>Visibility: {{data.visibility.toFixed()}}m</h3>
+        </div>
+        <div class="current-weather">
+            <h2>{{data.weather[0].main}}</h2>
+            <img width=200 height=200 src="https://openweathermap.org/img/wn/{{data.weather[0].icon}}@4x.png"/>        
+            <h2>{{data.main.temp.toFixed()}}&deg;F</h2>
+        </div>
+        <div class="hourly-forecast">
+            <h2>Your Hourly Forecast</h2>
+           
+            <div class="hourly-data">
+                 @for (hour of hourly_weather_data.list; track hour.dt) {
+                    <div class="hour-data">
+                        <span>{{hour.dt * 1000| date:"MMM d @ha"}}</span>
+                        <span>{{hour.main.temp.toFixed() }}&deg;F {{hour.weather[0].main}}</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

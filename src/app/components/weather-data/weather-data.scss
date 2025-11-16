@@ -1,0 +1,45 @@
+.weather-data {
+    h1 {
+       text-align: center; 
+    }
+    
+    .data {
+        display: grid;
+        margin: 0 auto;
+        grid-template-columns: 33% 33% 33%;
+        grid-template-rows: 100%;
+        overflow: hidden;
+    }
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.current-weather {
+    text-align: center;
+}
+
+.hourly-forecast {
+    text-align: center; 
+
+    .hourly-data {
+        max-height: 300px;
+        overflow-y: scroll;
+        width: 100%;
+        scrollbar-color: auto transparent;
+        scrollbar-width: thin;
+    }
+
+    .hour-data {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid gainsboro;
+        border-radius: 8px;
+        margin: 8px;
+    }
+}
