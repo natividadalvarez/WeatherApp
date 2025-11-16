@@ -1,59 +1,29 @@
-# WeatherApp
+# Setup/Build Instructions
+This project was created with the Angular CLI (v20) and is hosted on Netlify. To run locally you must have the following installed:
+- Node.js
+- Netlify CLI: https://docs.netlify.com/api-and-cli-guides/cli-guides/get-started-with-cli/
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.10.
+You can run the app with angular's `ng dev` command if you have the Angular CLI installed, otherwise you can run with `npm start`.
+However netlify serverless functions won't work locally you run the application with `netlify dev` from the netlify CLI.
 
-## Development server
+This project uses an Angular SPA to take user requests for weather data and display it, and Netlify serverless functions to interface with the [OpenWeather API](https://openweathermap.org/api)
 
-To start a local development server, run:
+# Application Details
+A user can either input their location in the text input provided, or juse the "use my locaton" button to allow the app to get their location via
+the Web Geolocation API.
 
-```bash
-ng serve
-```
+You will be able to see:
+- The current temp, weather, conditions, and an Image representation of the weather conditions
+- The 'feels like' temp, humidity, visibility, and wind speed
+- A Forecast at 3 hour intervals over the next 5 days, to include temp and weather conditions
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The OpenWeather API does not take city names as a parameter for getting forecast data, it requries latitude and longitude coordinates. It does have a geocoding API however that we use to verify entered city names and get back coordinates to use for our forecast query.
 
-## Code scaffolding
+User queries can be in 1 of 2 formats:
+- city,state code,country code
+- city,country code
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+state codes and country codes are represented by 2 letters (e.g. NY, US)
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+State codes are only for countries in the United States, so any query delimited by 2 commas will be assumed to be of the first format
+and any query of the second will be assumed to be in the second format. The city name you enter must match some record in the OpenWeather API (there is no other way to get coordinates as far as I know.) The box below the input is populated with suggestions. You can press the enter key when typing in the text input to just use the first very suggestion, or you can click on one of the suggesstions with the mouse. Once either occurs, weather data is popuplated below the text input, and you can view it, or perform another search.
