@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WeatherData } from './weather-data';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 describe('WeatherData', () => {
   let component: WeatherData;
@@ -8,7 +9,8 @@ describe('WeatherData', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WeatherData]
+      imports: [WeatherData],
+      providers: [provideZonelessChangeDetection()]
     })
     .compileComponents();
 
